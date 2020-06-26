@@ -50,11 +50,9 @@ export default {
     return {
       err: {
         onTitle: "",
-        onExp: "",
         onProcess: ""
       },
       title: "",
-      exp: { date: "", time: "" },
       tasks: [],
       taskTitle: ""
     };
@@ -110,12 +108,11 @@ export default {
     onSubmitTodo: function() {
       const newTodo = {};
       newTodo.title = this.title;
-      newTodo.exp = this.exp;
       newTodo.completed = false;
       newTodo.tasks = this.tasks;
       newTodo.percentage = 0;
       if (this.checkSubmition(newTodo)) {
-        this.$store.commit("todos/addTodo", newTodo);
+        this.$store.commit("wsTodos/ADD_TODO", newTodo);
         this.close();
       }
     }

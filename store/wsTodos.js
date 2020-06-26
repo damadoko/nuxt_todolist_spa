@@ -1,29 +1,30 @@
 export const state = () => {
   return {
-    socket: null,
+    connection: false,
+    error: "",
     updatedState: {
       filter: "all",
-      Todos: []
+      todos: []
     }
   };
 };
 
 export const getters = {
   getWSState: state => state,
-  getTodos: state => state.todos,
-  curentFilter: state => state.filter,
+  getTodos: state => state.updatedState.todos,
+  curentFilter: state => state.updatedState.filter,
   getTodoRecord: state => {
     return {
-      all: state.todos.length,
-      done: state.todos.filter(item => item.completed).length,
-      remain: state.todos.filter(item => !item.completed).length
+      all: state.updatedState.todos.length,
+      done: state.updatedState.todos.filter(item => item.completed).length,
+      remain: state.updatedState.todos.filter(item => !item.completed).length
     };
   },
   getSelectedTodo: state => id => {
-    return state.todos.filter(item => item.id === id)[0];
+    return state.updatedState.todos.filter(item => item.id === id)[0];
   },
   getTaskRecord: state => id => {
-    const todo = state.todos.filter(item => item.id == id)[0];
+    const todo = state.updatedState.todos.filter(item => item.id == id)[0];
     return {
       all: todo.tasks.length,
       done: todo.tasks.filter(item => item.isDone).length,
@@ -32,7 +33,17 @@ export const getters = {
   }
 };
 
-export const actions = {};
+export const actions = {
+  updateState({ commit }, data) {
+    commit("UPDATE_STATE", data);
+  },
+  logError({ commit }, data) {
+    commit("LOG_ERROR", data);
+  },
+  updateConnection({ commit }) {
+    commit("UPDATE_CONNECTION");
+  }
+};
 
 export const mutations = {
   setInitState: (state, data) => {
@@ -55,9 +66,8 @@ export const mutations = {
   deleteTodo: (state, id) => {
     state.todos = state.todos.filter(item => item.id !== id);
   },
-  addTodo: (state, newTodo) => {
-    newTodo.id = state.todos[0].id + 1;
-    state.todos.unshift(newTodo);
+  ADD_TODO: (state, newTodo) => {
+    console.log({ state, newTodo });
   },
   clearDoneTodo: state => {
     state.todos = state.todos.filter(item => !item.completed);
@@ -87,16 +97,15 @@ export const mutations = {
     // Update todo percentage
     updatePercentage(state, todoIndex);
   },
-  createWS: state => {
-    state.socket = new WebSocket("ws://localhost:8001/ws");
-    state.socket.onopen = function(event) {
-      console.log({ event });
-      console.log("Successfully connect to Websocket Server!");
-    };
-    state.socket.onmessage = function(event) {
-      console.log(event.data);
-    };
-    console.log(state.socket);
+  UPDATE_STATE: (state, newState) => {
+    // console.log("Received from socket server:", newState);
+    state.updatedState = newState;
+  },
+  LOG_ERROR: (state, error) => {
+    state.error = error;
+  },
+  UPDATE_CONNECTION: state => {
+    state.connection = true;
   }
 };
 

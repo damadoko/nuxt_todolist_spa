@@ -12,7 +12,7 @@ export default {
   name: "TodoList",
   components: { Todo },
   computed: mapGetters({
-    getTodos: "todos/getTodos"
+    getTodos: "wsTodos/getTodos"
   })
 };
 </script>

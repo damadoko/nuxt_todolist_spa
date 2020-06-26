@@ -16,20 +16,19 @@ export default {
     AppHeader,
     AppFooter
   },
-  computed: mapGetters({ state: "todos/getState", wss: "wsTodos/getWSState" }),
+  computed: mapGetters({ wss: "wsTodos/getWSState" })
 
-  created: function() {
-    this.$store.commit("wsTodos/createWS");
-    this.$store.dispatch("todos/fetchInitData");
-  },
-  watch: {
-    state: {
-      handler: function(newState, oldState) {
-        this.$store.dispatch("todos/updateState", newState);
-      },
-      deep: true
-    }
-  }
+  // created: function() {
+  //   this.$store.commit("wsTodos/createWS");
+  // },
+  // watch: {
+  //   wss: {
+  //     handler: function(newState, oldState) {
+  //       this.$store.dispatch("todos/updateState", newState);
+  //     },
+  //     deep: true
+  //   }
+  // }
 };
 </script>
 
