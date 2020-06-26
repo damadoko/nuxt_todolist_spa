@@ -1,0 +1,26 @@
+{
+  "name": "todo-list-nuxt",
+  "version": "1.0.0",
+  "description": "My posh Nuxt.js project",
+  "author": "Triet.Le",
+  "private": true,
+  "engines": {
+    "node": "14.x"
+  },
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "heroku-postbuild": "npm run build"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.0",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "axios": "^0.19.2",
+    "cookie-universal-nuxt": "^2.1.4",
+    "nuxt": "^2.0.0",
+    "nuxt-fontawesome": "^0.4.0"
+  },
+  "devDependencies": {}
+}
