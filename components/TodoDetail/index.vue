@@ -27,7 +27,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "TodoDetail",
   props: ["task", "todoID"],
-  computed: mapGetters({ curentFilter: "todos/curentFilter" }),
+  computed: mapGetters({ curentFilter: "wsTodos/curentFilter" }),
   methods: {
     delTask: function() {
       const loadID = {

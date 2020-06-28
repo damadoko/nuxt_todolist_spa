@@ -16,7 +16,7 @@ export default {
   name: "TaskFilter",
   methods: {
     filter: function(status) {
-      this.$store.commit("todos/changeFilter", status);
+      this.$store.commit("wsTodos/changeFilter", status);
     }
   }
 };

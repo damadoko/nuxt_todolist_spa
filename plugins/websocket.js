@@ -16,8 +16,8 @@ export default function newSocket() {
     };
 
     socket.onmessage = function(event) {
-      console.log("message from the server", event.data);
-      // store.dispatch("wsTodos/updateState", JSON.parse(event.data));
+      // console.log("message from the server", event.data);
+      store.dispatch("wsTodos/updateState", JSON.parse(event.data));
     };
 
     // Send message to socket server

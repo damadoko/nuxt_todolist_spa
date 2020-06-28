@@ -21,14 +21,14 @@ export default {
   components: { TodoDetail },
   computed: {
     ...mapGetters({
-      getSelectedTodo: "todos/getSelectedTodo"
+      getSelectedTodo: "wsTodos/getSelectedTodo"
     }),
     selectedTodo: function() {
       return this.getSelectedTodo(parseInt(this.$route.params.id));
     }
   },
   created: function() {
-    this.$store.commit("todos/changeFilter", "all");
+    this.$store.commit("wsTodos/changeFilter", "all");
   },
   head: {
     title: "Your Todo Detail"

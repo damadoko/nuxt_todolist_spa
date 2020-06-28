@@ -1,4 +1,4 @@
-import { dataMockUp } from "./_dataMockup";
+import { dataMockUp } from "./store/_dataMockup";
 import axios from "axios";
 
 export const state = () => {

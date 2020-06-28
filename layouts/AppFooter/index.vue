@@ -29,8 +29,8 @@ export default {
   components: { Record },
   computed: {
     ...mapGetters({
-      todoRecords: "todos/getTodoRecord",
-      getTaskRecord: "todos/getTaskRecord"
+      todoRecords: "wsTodos/getTodoRecord",
+      getTaskRecord: "wsTodos/getTaskRecord"
     }),
     getRoute: function() {
       return this.$route.params.id;

@@ -73,7 +73,7 @@ export const mutations = {
     state.todos = state.todos.filter(item => !item.completed);
   },
   changeFilter: (state, status) => {
-    state.filter = status;
+    state.updatedState.filter = status;
   },
   delTask: (state, loadID) => {
     // Find selected todo index

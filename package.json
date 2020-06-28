@@ -20,7 +20,8 @@
     "axios": "^0.19.2",
     "cookie-universal-nuxt": "^2.1.4",
     "nuxt": "^2.0.0",
-    "nuxt-fontawesome": "^0.4.0"
+    "nuxt-fontawesome": "^0.4.0",
+    "vuex-persistedstate": "^3.0.1"
   },
   "devDependencies": {}
 }
