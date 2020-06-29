@@ -16,19 +16,12 @@ export default {
     AppHeader,
     AppFooter
   },
-  computed: mapGetters({ wss: "wsTodos/getWSState" })
-
-  // created: function() {
-  //   this.$store.commit("wsTodos/createWS");
-  // },
-  // watch: {
-  //   wss: {
-  //     handler: function(newState, oldState) {
-  //       this.$store.dispatch("todos/updateState", newState);
-  //     },
-  //     deep: true
-  //   }
-  // }
+  computed: mapGetters({ wss: "wsTodos/getWSState" }),
+  watch: {
+    $route(to, from) {
+      this.$store.commit("wsTodos/CHANGE_FILTER", "all");
+    }
+  }
 };
 </script>
 

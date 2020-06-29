@@ -46,8 +46,8 @@ export const actions = {
   logError({ commit }, data) {
     commit("LOG_ERROR", data);
   },
-  updateConnection({ commit }) {
-    commit("UPDATE_CONNECTION");
+  updateConnection({ commit }, status) {
+    commit("UPDATE_CONNECTION", status);
   }
 };
 
@@ -86,8 +86,8 @@ export const mutations = {
     console.log(error);
     state.error = error;
   },
-  UPDATE_CONNECTION: state => {
-    state.connection = true;
+  UPDATE_CONNECTION: (state, status) => {
+    state.connection = status;
   }
 };
 

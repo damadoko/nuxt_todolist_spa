@@ -27,10 +27,11 @@ import { mapGetters } from "vuex";
 export default {
   name: "Todo",
   props: ["todo"],
-  computed: mapGetters({
-    curentFilter: "wsTodos/curentFilter",
-    getTodos: "wsTodos/getTodos"
-  }),
+  computed: {
+    ...mapGetters({
+      curentFilter: "wsTodos/curentFilter"
+    })
+  },
   methods: {
     completeTodo: function() {
       this.$store.commit("wsTodos/COMPLETE_TODO", this.todo.id);
@@ -47,9 +48,6 @@ export default {
       }
       return false;
     }
-  },
-  created: function() {
-    this.$store.commit("wsTodos/CHANGE_FILTER", "all");
   }
 };
 </script>

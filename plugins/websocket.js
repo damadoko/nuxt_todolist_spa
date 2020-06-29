@@ -1,6 +1,8 @@
-const socket = new WebSocket("ws://localhost:8001/ws");
+// const socket = new WebSocket("ws://localhost:8001/ws");
+const socket = new WebSocket("ws:peaceful-retreat-82156.herokuapp.com/ws");
 export default function newSocket() {
   return store => {
+    store.commit("wsTodos/UPDATE_CONNECTION", false);
     socket.onopen = function(event) {
       console.log("Successfully connect to Websocket Server!");
       socket.send(
@@ -8,16 +10,30 @@ export default function newSocket() {
           type: "initial"
         })
       );
-      store.dispatch("wsTodos/updateConnection");
+      // Prevent server close connection when it not receive any request
+      const timer = setInterval(function() {
+        socket.send(
+          JSON.stringify({
+            type: "initial"
+          })
+        );
+      }, 50000);
+      store.commit("wsTodos/UPDATE_CONNECTION", true);
     };
 
     socket.onerror = function(event) {
       store.dispatch("wsTodos/logError", event.error);
+      store.commit("wsTodos/UPDATE_CONNECTION", false);
     };
 
     socket.onmessage = function(event) {
-      console.log("Message from the server", JSON.parse(event.data));
+      // console.log("Message from the server", JSON.parse(event.data));
       store.dispatch("wsTodos/updateState", JSON.parse(event.data));
+    };
+
+    socket.onclose = function(event) {
+      console.log("Connection closed!");
+      store.commit("wsTodos/UPDATE_CONNECTION", false);
     };
 
     // Send message to socket server
@@ -90,5 +106,3 @@ export default function newSocket() {
     });
   };
 }
-
-const formatRequest = (type, loadID, filter, todo) => {};

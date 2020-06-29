@@ -34,9 +34,6 @@ export default {
       return { title: "", tasks: [], percentage: 0, id: 0 };
     }
   },
-  created: function() {
-    this.$store.commit("wsTodos/CHANGE_FILTER", "all");
-  },
   head: {
     title: "Your Todo Detail"
   }
