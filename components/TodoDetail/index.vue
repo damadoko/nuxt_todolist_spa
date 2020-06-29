@@ -1,16 +1,8 @@
 <template>
   <div class="task" :class="{ hide: taskFilter() }">
     <div class="task-info" :class="{ done: task.isDone }">
-      <font-awesome-icon
-        v-if="task.isDone"
-        :icon="['fas', 'check-circle']"
-        @click="completeTask"
-      />
-      <font-awesome-icon
-        v-else
-        :icon="['fas', 'check']"
-        @click="completeTask"
-      />
+      <font-awesome-icon v-if="task.isDone" :icon="['fas', 'check-circle']" @click="completeTask" />
+      <font-awesome-icon v-else :icon="['fas', 'check']" @click="completeTask" />
       <p>{{ task.taskTitle }}</p>
     </div>
     <font-awesome-icon
@@ -30,18 +22,12 @@ export default {
   computed: mapGetters({ curentFilter: "wsTodos/curentFilter" }),
   methods: {
     delTask: function() {
-      const loadID = {
-        todoID: this.todoID,
-        taskID: this.task.taskID
-      };
-      this.$store.commit("todos/delTask", loadID);
+      const loadID = [this.todoID, this.task.taskID];
+      this.$store.commit("wsTodos/DELETE_TASK", loadID);
     },
     completeTask: function() {
-      const loadID = {
-        todoID: this.todoID,
-        taskID: this.task.taskID
-      };
-      this.$store.commit("todos/completeTask", loadID);
+      const loadID = [this.todoID, this.task.taskID];
+      this.$store.commit("wsTodos/COMPLETE_TASK", loadID);
     },
     taskFilter: function() {
       if (

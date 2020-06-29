@@ -21,14 +21,21 @@ export default {
   components: { TodoDetail },
   computed: {
     ...mapGetters({
-      getSelectedTodo: "wsTodos/getSelectedTodo"
+      getSelectedTodo: "wsTodos/getSelectedTodo",
+      compareID: "wsTodos/compareID"
     }),
     selectedTodo: function() {
-      return this.getSelectedTodo(parseInt(this.$route.params.id));
+      const currentID = parseInt(this.$route.params.id);
+      if (!this.compareID(currentID)) {
+        this.$router.push("/");
+      } else {
+        return this.getSelectedTodo(currentID);
+      }
+      return { title: "", tasks: [], percentage: 0, id: 0 };
     }
   },
   created: function() {
-    this.$store.commit("wsTodos/changeFilter", "all");
+    this.$store.commit("wsTodos/CHANGE_FILTER", "all");
   },
   head: {
     title: "Your Todo Detail"

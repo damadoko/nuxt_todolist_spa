@@ -24,7 +24,7 @@ export default {
       this.isModalShow = false;
     },
     clear: function() {
-      this.$store.commit("todos/clearDoneTodo");
+      this.$store.commit("wsTodos/CLEAR_DONE_TODO");
     }
   }
 };

@@ -16,7 +16,7 @@ export default function newSocket() {
     };
 
     socket.onmessage = function(event) {
-      // console.log("message from the server", event.data);
+      console.log("Message from the server", JSON.parse(event.data));
       store.dispatch("wsTodos/updateState", JSON.parse(event.data));
     };
 
@@ -25,13 +25,13 @@ export default function newSocket() {
       if (state.wsTodos.connection) {
         switch (mutation.type) {
           case "wsTodos/ADD_TODO":
-            console.log(
-              "Sendding",
-              JSON.stringify({
-                type: "add",
-                todo: mutation.payload
-              })
-            );
+            // console.log(
+            //   "Sendding",
+            //   JSON.stringify({
+            //     type: "add",
+            //     todo: mutation.payload
+            //   })
+            // );
             return socket.send(
               JSON.stringify({
                 type: "add",
@@ -39,26 +39,52 @@ export default function newSocket() {
               })
             );
 
-          case "DELETE_TODO":
-            return socket.send("delete", mutation.payload);
+          case "wsTodos/DELETE_TODO":
+            return socket.send(
+              JSON.stringify({
+                type: "delete",
+                loadID: [mutation.payload, 0]
+              })
+            );
 
-          case "CLEAR_TODO":
-            return socket.send("clear");
+          case "wsTodos/CLEAR_DONE_TODO":
+            return socket.send(
+              JSON.stringify({
+                type: "clear"
+              })
+            );
 
-          case "CHANGE_FILTER":
-            return socket.send("changeFilter", mutation.payload);
+          case "wsTodos/CHANGE_FILTER":
+            return socket.send(
+              JSON.stringify({
+                type: "changeFilter",
+                filter: mutation.payload
+              })
+            );
 
-          case "CLEAR_TODO":
-            return socket.send("clear");
+          case "wsTodos/COMPLETE_TODO":
+            return socket.send(
+              JSON.stringify({
+                type: "completeTodo",
+                loadID: [mutation.payload, 0]
+              })
+            );
 
-          case "COMPLETE_TODO":
-            return socket.send("completeTodo", mutation.payload);
+          case "wsTodos/COMPLETE_TASK":
+            return socket.send(
+              JSON.stringify({
+                type: "completeTask",
+                loadID: mutation.payload
+              })
+            );
 
-          case "COMPLETE_TASK":
-            return socket.send("completeTask", mutation.payload);
-
-          case "DELETE_TASK":
-            return socket.send("completeTask", mutation.payload);
+          case "wsTodos/DELETE_TASK":
+            return socket.send(
+              JSON.stringify({
+                type: "delTask",
+                loadID: mutation.payload
+              })
+            );
         }
       }
     });

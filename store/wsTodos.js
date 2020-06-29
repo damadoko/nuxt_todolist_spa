@@ -12,6 +12,9 @@ export const state = () => {
 export const getters = {
   getWSState: state => state,
   getTodos: state => state.updatedState.todos,
+  compareID: state => id => {
+    return state.updatedState.todos.filter(item => item.id === id).length;
+  },
   curentFilter: state => state.updatedState.filter,
   getTodoRecord: state => {
     return {
@@ -25,6 +28,9 @@ export const getters = {
   },
   getTaskRecord: state => id => {
     const todo = state.updatedState.todos.filter(item => item.id == id)[0];
+    if (!todo) {
+      return { all: 0, done: 0, remain: 0 };
+    }
     return {
       all: todo.tasks.length,
       done: todo.tasks.filter(item => item.isDone).length,
@@ -46,62 +52,38 @@ export const actions = {
 };
 
 export const mutations = {
-  setInitState: (state, data) => {
-    state.todos = data.todos;
-    state.filter = data.filter;
+  COMPLETE_TODO: (state, id) => {
+    // console.log({ state, id });
+    return { state, id };
   },
-  setComplete: (state, id) => {
-    const index = state.todos.findIndex(item => item.id === id);
-    // Change todo complete status
-    state.todos[index].completed = !state.todos[index].completed;
-    // Change Tasks complete status && percentage
-    if (state.todos[index].completed) {
-      state.todos[index].tasks.map(item => (item.isDone = true));
-      state.todos[index].percentage = 100;
-    } else {
-      state.todos[index].tasks.map(item => (item.isDone = false));
-      state.todos[index].percentage = 0;
-    }
-  },
-  deleteTodo: (state, id) => {
-    state.todos = state.todos.filter(item => item.id !== id);
+  DELETE_TODO: (state, id) => {
+    // console.log({ state, id });
+    return { state, id };
   },
   ADD_TODO: (state, newTodo) => {
-    console.log({ state, newTodo });
+    // console.log({ state, newTodo });
+    return { state, newTodo };
   },
-  clearDoneTodo: state => {
-    state.todos = state.todos.filter(item => !item.completed);
+  CLEAR_DONE_TODO: state => {
+    // console.log({ state });
+    return { state };
   },
-  changeFilter: (state, status) => {
-    state.updatedState.filter = status;
+  CHANGE_FILTER: (state, status) => {
+    // console.log({ state, status });
+    return { state, status };
   },
-  delTask: (state, loadID) => {
-    // Find selected todo index
-    const index = state.todos.findIndex(item => item.id === loadID.todoID);
-    // Delete selected todo
-    state.todos[index].tasks = state.todos[index].tasks.filter(
-      item => item.taskID !== loadID.taskID
-    );
-    // Update todo percentage
-    updatePercentage(state, index);
+  DELETE_TASK: (state, loadID) => {
+    return { state, loadID };
   },
-  completeTask: (state, loadID) => {
-    // Find selected task index in selected todo
-    const todoIndex = state.todos.findIndex(item => item.id === loadID.todoID);
-    const taskIndex = state.todos[todoIndex].tasks.findIndex(
-      item => item.taskID === loadID.taskID
-    );
-    // Toggle selected task 'isDone' status
-    state.todos[todoIndex].tasks[taskIndex].isDone = !state.todos[todoIndex]
-      .tasks[taskIndex].isDone;
-    // Update todo percentage
-    updatePercentage(state, todoIndex);
+  COMPLETE_TASK: (state, loadID) => {
+    return { state, loadID };
   },
   UPDATE_STATE: (state, newState) => {
     // console.log("Received from socket server:", newState);
     state.updatedState = newState;
   },
   LOG_ERROR: (state, error) => {
+    console.log(error);
     state.error = error;
   },
   UPDATE_CONNECTION: state => {

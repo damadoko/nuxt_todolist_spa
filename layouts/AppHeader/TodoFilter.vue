@@ -4,9 +4,7 @@
     <div class="btn-group">
       <button type="button" class="all" @click="filter('all')">All</button>
       <button type="button" class="done" @click="filter('done')">Done</button>
-      <button type="button" class="remain" @click="filter('remain')">
-        Remain
-      </button>
+      <button type="button" class="remain" @click="filter('remain')">Remain</button>
     </div>
   </div>
 </template>
@@ -16,7 +14,7 @@ export default {
   name: "TaskFilter",
   methods: {
     filter: function(status) {
-      this.$store.commit("wsTodos/changeFilter", status);
+      this.$store.commit("wsTodos/CHANGE_FILTER", status);
     }
   }
 };

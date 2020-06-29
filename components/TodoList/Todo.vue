@@ -6,11 +6,7 @@
         :icon="['fas', 'check-circle']"
         @click="completeTodo"
       />
-      <font-awesome-icon
-        v-else
-        :icon="['fas', 'check']"
-        @click="completeTodo"
-      />
+      <font-awesome-icon v-else :icon="['fas', 'check']" @click="completeTodo" />
       <p>{{ todo.title }}</p>
       <span>{{ todo.percentage + "%" }}</span>
     </div>
@@ -31,13 +27,16 @@ import { mapGetters } from "vuex";
 export default {
   name: "Todo",
   props: ["todo"],
-  computed: mapGetters({ curentFilter: "wsTodos/curentFilter" }),
+  computed: mapGetters({
+    curentFilter: "wsTodos/curentFilter",
+    getTodos: "wsTodos/getTodos"
+  }),
   methods: {
     completeTodo: function() {
-      this.$store.commit("todos/setComplete", this.todo.id);
+      this.$store.commit("wsTodos/COMPLETE_TODO", this.todo.id);
     },
     deleteTodo: function() {
-      this.$store.commit("todos/deleteTodo", this.todo.id);
+      this.$store.commit("wsTodos/DELETE_TODO", this.todo.id);
     },
     taskFilter: function() {
       if (
@@ -50,7 +49,7 @@ export default {
     }
   },
   created: function() {
-    this.$store.commit("wsTodos/changeFilter", "all");
+    this.$store.commit("wsTodos/CHANGE_FILTER", "all");
   }
 };
 </script>
